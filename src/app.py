@@ -189,6 +189,37 @@ def create_character():
     return jsonify(request_body_character), 200
     #height=request_body_character["height"], skin_color=request_body_character["skin_color"], eye_color=request_body_character["eye_color"]
 
+    #PUT edit CHARACTERS data
+
+@app.route('/characters/<int:characters_id>', methods=['PUT'])
+def edit_character(characters_id):
+
+    request_body_character = request.get_json()
+    
+    character1 = Characters.query.get(characters_id)
+    if character1 is None:
+        raise APIException("Character not found", status_code=404)
+
+    if "name" in request_body_character:
+        character1.name = request_body_character["name"]
+
+    db.session.commit()
+
+    return jsonify(request_body_character), 200
+
+    # DELETE CHARACTER
+
+@app.route('/characters/<int:characters_id>', methods=['DELETE'])
+def delete_character(characters_id):
+    
+    character1 = Characters.query.get(characters_id)
+    if character1 is None:
+        raise APIException("Character not found", status_code=404)
+    db.session.delete(character1)
+    db.session.commit()
+
+    return jsonify("ok"), 200
+
     # GET CHARACTER Details
 
 @app.route('/characters/<int:characters_id>', methods=['GET'])
@@ -221,6 +252,37 @@ def create_planet():
 
     return jsonify(request_body_planets), 200
      #rotation_period=request_body_planets["rotation_period"], surface_water=request_body_planets["surface_water"], gravity=request_body_planets["gravity"], climate=request_body_planets["climate"]
+
+    # PUT edit PLANETS
+
+@app.route('/planets/<int:planets_id>', methods=['PUT'])
+def edit_planet(planets_id):
+
+    request_body_planets = request.get_json()
+    
+    planets1 = Planets.query.get(planets_id)
+    if planets1 is None:
+        raise APIException("Planet not found", status_code=404)
+
+    if "name" in request_body_planets:
+        planets1.name = request_body_planets["name"]
+
+    db.session.commit()
+
+    return jsonify(request_body_planets), 200
+
+    # DELETE PLANETS
+
+@app.route('/planets/<int:planets_id>', methods=['DELETE'])
+def delete_planet(planets_id):
+    
+    planets1 = Planets.query.get(planets_id)
+    if planets1 is None:
+        raise APIException("Planet not found", status_code=404)
+    db.session.delete(planets1)
+    db.session.commit()
+
+    return jsonify("ok"), 200
 
     # GET PLANETS Details
 
